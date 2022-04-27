@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Глеб Лузин](https://up.htmlacademy.ru/ecmascript/17/user/1940171).
-* Наставник: `Неизвестно`.
+* Наставник: [Владимир Якушкин](https://htmlacademy.ru/profile/id126208).
 
 ---
 
