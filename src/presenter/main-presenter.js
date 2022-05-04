@@ -11,8 +11,11 @@ const body = document.querySelector('body');
 export default class MainPresenter {
   mainBoard = new MainBoardView();
   filmsContainer = new FilmsContainerView;
-  init = (boardContainer) => {
+  init = (boardContainer, filmsCardModel) => {
     this.boardContainer = boardContainer;
+    this.filmsCardModel = filmsCardModel;
+
+    this.boardFilms = [...this.filmsCardModel.getTasks()];
     render(new MainNavigation, this.boardContainer);
     render(new SortView(), this.boardContainer);
     render(this.mainBoard,this.boardContainer);
@@ -20,8 +23,8 @@ export default class MainPresenter {
     render(new ButtonShowMoreView(),this.filmsContainer.getElement());
     render(new PopupHideOverflowView(),body);
 
-    for (let i = 0; i < 5; i++) {
-      render(new FilmCardView(), this.filmsContainer.getElement().querySelector('.films-list__container'));
+    for (let i = 0; i < this.boardFilms.length; i++) {
+      render(new FilmCardView(this.boardFilms[i]), this.filmsContainer.getElement().querySelector('.films-list__container'));
     }
   };
 }
