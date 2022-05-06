@@ -77,7 +77,7 @@ const createHideOverflowTemplate = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">USA</td>
+              <td class="film-details__cell">${filmInfo.release.releaseCountry}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">${genreTitle}</td>
