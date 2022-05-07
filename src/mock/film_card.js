@@ -56,21 +56,21 @@ const Comments = [
     id: 1,
     author: 'Gleb Luzin',
     comment: 'Крутой фильм.',
-    date: '2019-05-11T16:12:32.554Z',
+    date: '2022-04-11T16:11:32.554Z',
     emotion: 'smile'
   },
   {
     id: 2,
     author: 'Kiril Marchenko',
     comment: 'Мне не понравилось.',
-    date: '2019-05-11T16:12:32.554Z',
+    date: '2022-01-22T16:10:32.554Z',
     emotion: 'sleeping'
   },
   {
     id: 3,
     author: 'Ilya Poddubniy',
     comment: 'На один раз.',
-    date: '2019-05-11T16:12:32.554Z',
+    date: '2022-02-22T16:10:32.554Z',
     emotion: 'sleeping'
   }
 ];
