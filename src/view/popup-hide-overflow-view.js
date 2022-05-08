@@ -1,6 +1,6 @@
 import {createElement} from '../render.js';
 import {getTimeFromMins} from '../utils.js';
-import {humanizeTaskDueDate, humanizeTaskDueDateComm} from '../utils.js';
+import {humanizeDate, humanizeDateComm} from '../utils.js';
 import {getCommentById} from '../mock/film_card.js';
 
 const createHideOverflowTemplate = (card) => {
@@ -21,7 +21,7 @@ const createHideOverflowTemplate = (card) => {
     <p class="film-details__comment-text">${comm.comment}</p>
     <p class="film-details__comment-info">
       <span class="film-details__comment-author">${comm.author}</span>
-      <span class="film-details__comment-day">${humanizeTaskDueDateComm(comm.date)}</span>
+      <span class="film-details__comment-day">${humanizeDateComm(comm.date)}</span>
       <button class="film-details__comment-delete">Delete</button>
     </p>
   </div>
@@ -69,7 +69,7 @@ const createHideOverflowTemplate = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${humanizeTaskDueDate(filmInfo.release.date)}</td>
+              <td class="film-details__cell">${humanizeDate(filmInfo.release.date)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

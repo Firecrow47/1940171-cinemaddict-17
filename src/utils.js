@@ -5,14 +5,10 @@ const getRandomInteger = (a = 0, b = 1) => {
   const upper = Math.floor(Math.max(a, b));
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
-const getTimeFromMins = (mins) => {
-  const hours = Math.trunc(mins/60);
-  const minutes = mins % 60;
-  return `${hours  }h ${  minutes  }m`;
-};
-const humanizeTaskDueDate = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
-const humanizeTaskDueDateMain = (dueDate) => dayjs(dueDate).format('YYYY');
-const humanizeTaskDueDateComm = (dueDate) => dayjs(dueDate).format('M/D/YYYY h:mm');
+const getTimeFromMins = (min) =>dayjs().hour(0).minute(min).format('hч mмин');
+const humanizeDate = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
+const humanizeDateMain = (dueDate) => dayjs(dueDate).format('YYYY');
+const humanizeDateComm = (dueDate) => dayjs(dueDate).format('M/D/YYYY h:mm');
 
 
-export {getRandomInteger, getTimeFromMins, humanizeTaskDueDate, humanizeTaskDueDateMain, humanizeTaskDueDateComm};
+export {getRandomInteger, getTimeFromMins, humanizeDate, humanizeDateMain, humanizeDateComm};
