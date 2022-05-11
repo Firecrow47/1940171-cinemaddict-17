@@ -1,7 +1,10 @@
-import {generateCard} from '../mock/film_card.js';
+import { generateCard } from '../mock/film_card.js';
 
 export default class FilmsCardModel {
-  tasks = Array.from({length: 5}, generateCard);
+  #card = Array.from({length:20}, generateCard);
 
-  getTasks = () => this.tasks;
+  get card () {
+    return this.#card;
+  }
 }
+

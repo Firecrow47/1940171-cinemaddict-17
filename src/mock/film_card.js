@@ -49,20 +49,49 @@ const generatePoster = () => {
   return posters[randomIndex];
 };
 
+const Comments = [
+  {
+    id: 1,
+    author: 'Gleb Luzin',
+    comment: 'Крутой фильм.',
+    date: '2022-04-11T16:11:32.554Z',
+    emotion: 'smile'
+  },
+  {
+    id: 2,
+    author: 'Kiril Marchenko',
+    comment: 'Мне не понравилось.',
+    date: '2022-01-22T16:10:32.554Z',
+    emotion: 'sleeping'
+  },
+  {
+    id: 3,
+    author: 'Ilya Poddubniy',
+    comment: 'На один раз.',
+    date: '2022-02-22T16:10:32.554Z',
+    emotion: 'sleeping'
+  }
+];
+
 export const generateCard = () => ({
   id: 0,
+  comments: [
+    1, 2, 3
+  ],
   filmInfo: {
     title: generateTitle(),
-    alternativeTitle: 'Laziness Who Sold Themselves',
+    alternativeTitle: generateTitle(),
     totalRating: 5.3,
     poster: generatePoster(),
     ageRating: 0,
     director: 'Tom Ford',
     writers: [
-      'Takeshi Kitano'
+      'Takeshi Kitano',
+      'Gleb Luzin'
     ],
     actors: [
-      'Morgan Freeman'
+      'Morgan Freeman',
+      'Gleb Luzin'
     ],
     release: {
       date: '2019-05-11T00:00:00.000Z',
@@ -70,7 +99,8 @@ export const generateCard = () => ({
     },
     runtime: 77,
     genre: [
-      'Comedy'
+      'Comedy',
+      'Horror'
     ],
     description: generateDescription()
   },
@@ -81,3 +111,8 @@ export const generateCard = () => ({
     favorite: false
   }
 });
+
+const getCommentById = (arr) => Comments.filter((comment)=>arr.includes(comment.id));
+
+export {getCommentById};
+
