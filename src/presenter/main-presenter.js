@@ -11,6 +11,7 @@ import {render} from '../render.js';
 const body = document.querySelector('body');
 
 export default class MainPresenter {
+
   #mainBoard = new MainBoardView();
   #filmsContainer = new FilmsContainerView;
   init = (boardContainer, filmsCardsModel) => {
@@ -26,6 +27,7 @@ export default class MainPresenter {
 
     for (let i = 0; i <this.boardFilms.length; i++) {
       this.#renderCard(this.boardFilms[i]);
+
     }
   };
 

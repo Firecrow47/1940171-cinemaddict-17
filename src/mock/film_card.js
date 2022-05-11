@@ -81,6 +81,7 @@ export const generateCard = () => ({
   filmInfo: {
     title: generateTitle(),
     alternativeTitle: generateTitle(),
+
     totalRating: 5.3,
     poster: generatePoster(),
     ageRating: 0,
