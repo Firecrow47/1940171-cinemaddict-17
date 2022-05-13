@@ -9,6 +9,6 @@ const filmsCardModel = new FilmsCardModel();
 
 
 render(new UserTitleView(), headerElement);
-const mainPresenter = new MainPresenter();
-mainPresenter.init(main, filmsCardModel);
+const mainPresenter = new MainPresenter(main, filmsCardModel);
+mainPresenter.init();
 
