@@ -1,4 +1,4 @@
-import { generateCard } from '../mock/film_card.js';
+import { generateCard } from '../mock/film-card.js';
 
 export default class FilmsCardModel {
   #card = Array.from({length:20}, generateCard);
@@ -7,4 +7,3 @@ export default class FilmsCardModel {
     return this.#card;
   }
 }
-

@@ -1,7 +1,7 @@
 import {createElement} from '../render.js';
 import {getTimeFromMins} from '../utils.js';
 import {humanizeDate, humanizeDateComm} from '../utils.js';
-import {getCommentById} from '../mock/film_card.js';
+import {getCommentById} from '../mock/film-card.js';
 
 const createHideOverflowTemplate = (card) => {
   const {filmInfo, comments} = card;
