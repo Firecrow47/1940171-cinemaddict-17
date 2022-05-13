@@ -11,22 +11,50 @@ import {render} from '../render.js';
 const body = document.querySelector('body');
 
 export default class MainPresenter {
-  mainBoard = new MainBoardView();
-  filmsContainer = new FilmsContainerView;
+  #mainBoard = new MainBoardView();
+  #filmsContainer = new FilmsContainerView;
   init = (boardContainer, filmsCardsModel) => {
     this.boardContainer = boardContainer;
     this.filmsCardModel = filmsCardsModel;
-    this.boardFilms=[...this.filmsCardModel.getCard()];
+    this.boardFilms=[...this.filmsCardModel.card];
 
     render(new MainNavigation, this.boardContainer);
     render(new SortView(), this.boardContainer);
-    render(this.mainBoard,this.boardContainer);
-    render(this.filmsContainer, this.mainBoard.getElement());
-    render(new ButtonShowMoreView(),this.filmsContainer.getElement());
-    render(new PopupHideOverflowView(this.boardFilms[0]),body);
+    render(this.#mainBoard, this.boardContainer);
+    render(this.#filmsContainer, this.#mainBoard.element);
+    render(new ButtonShowMoreView(), this.#filmsContainer.element);
+    this.boardFilms.forEach((card) => this.#renderCard(card));
+  };
 
-    for (let i = 0; i <this.boardFilms.length; i++) {
-      render(new FilmCardView(this.boardFilms[i]), this.filmsContainer.getElement().querySelector('.films-list__container'));
-    }
+  #renderCard = (card) => {
+    const cardComponent = new FilmCardView(card);
+    const cardPopup = new PopupHideOverflowView(card);
+    render(cardComponent, this.#filmsContainer.element.querySelector('.films-list__container'));
+
+    const addPopup  = () => {
+      body.appendChild(cardPopup.element);
+      body.classList.add('hide-overflow');
+    };
+    const removePopup  = () => {
+      body.removeChild(cardPopup.element);
+      body.classList.remove('hide-overflow');
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        removePopup();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+    cardComponent.element.addEventListener('click',()=>{
+      addPopup();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
+
+    cardPopup.element.querySelector('.film-details__close-btn').addEventListener('click',() => {
+      removePopup();
+      document.removeEventListener('keydown', onEscKeyDown);
+    });
   };
 }

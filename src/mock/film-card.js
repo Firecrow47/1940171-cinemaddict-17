@@ -49,8 +49,6 @@ const generatePoster = () => {
   return posters[randomIndex];
 };
 
-const title = generateTitle();
-
 const Comments = [
   {
     id: 1,
@@ -81,8 +79,9 @@ export const generateCard = () => ({
     1, 2, 3
   ],
   filmInfo: {
-    title: title,
-    alternativeTitle: title,
+    title: generateTitle(),
+    alternativeTitle: generateTitle(),
+
     totalRating: 5.3,
     poster: generatePoster(),
     ageRating: 0,
