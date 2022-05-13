@@ -88,8 +88,8 @@ export default class MainPresenter {
 
       this.#filmsContainer.element.addEventListener('click', this.#handleShowMoreButtonClick);
     }
+    this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
 
-    for (let i = 0; i <Math.min(this.boardFilms.length, CARD_COUNT_PER_STEP); i++) {
-      this.#renderCard(this.boardFilms[i]);}
+
   };
 }
