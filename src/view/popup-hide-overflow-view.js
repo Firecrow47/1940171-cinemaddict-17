@@ -1,7 +1,7 @@
 import {createElement} from '../render.js';
 import {getTimeFromMins} from '../utils.js';
 import {humanizeDate, humanizeDateComm} from '../utils.js';
-import {getCommentById} from '../mock/film_card.js';
+import {getCommentById} from '../mock/film-card.js';
 
 const createHideOverflowTemplate = (card) => {
   const {filmInfo, comments} = card;
@@ -144,23 +144,29 @@ const createHideOverflowTemplate = (card) => {
 };
 
 export default class PopupHideOverflowView {
+
+  #element = null;
+  #card = null;
+
   constructor(card) {
-    this.card = card;
+    this.#card = card;
+
   }
 
-  getTemplate() {
-    return createHideOverflowTemplate(this.card);
+  get template() {
+    return createHideOverflowTemplate(this.#card);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
+

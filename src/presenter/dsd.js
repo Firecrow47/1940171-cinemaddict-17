@@ -16,16 +16,28 @@ export default class MainPresenter {
   #filmsContainer = new FilmsContainerView;
   #buttonShowMore = new ButtonShowMoreView();
   #renderCardCount = CARD_COUNT_PER_STEP;
-
-  constructor(boardContainer, filmsCardsModel) {
+  init = (boardContainer, filmsCardsModel) => {
     this.boardContainer = boardContainer;
     this.filmsCardModel = filmsCardsModel;
-  }
-
-  init = () => {
     this.boardFilms=[...this.filmsCardModel.card];
+
     render(new MainNavigation, this.boardContainer);
-    this.#renderBoard();
+    render(new SortView(), this.boardContainer);
+    render(this.#mainBoard, this.boardContainer);
+    render(this.#filmsContainer, this.#mainBoard.element);
+
+    if (this.boardFilms.every) {
+      render(new NoCardView(), this.#filmsContainer.element);
+    }
+
+    if (this.boardFilms.length > CARD_COUNT_PER_STEP) {
+      render(this.#buttonShowMore, this.#filmsContainer.element);
+
+      this.#filmsContainer.element.addEventListener('click', this.#handleShowMoreButtonClick);
+    }
+
+    for (let i = 0; i <Math.min(this.boardFilms.length, CARD_COUNT_PER_STEP); i++) {
+      this.#renderCard(this.boardFilms[i]);}
   };
 
   #handleShowMoreButtonClick = (evt) => {
@@ -73,23 +85,5 @@ export default class MainPresenter {
       removePopup();
       document.removeEventListener('keydown', onEscKeyDown);
     });
-  };
-
-  #renderBoard = () => {
-    render(this.#mainBoard, this.boardContainer);
-    render(new SortView(), this.boardContainer);
-    render(this.#filmsContainer, this.#mainBoard.element);
-    if (this.boardFilms.every) {
-      render(new NoCardView(), this.#filmsContainer.element);
-    }
-
-    if (this.boardFilms.length > CARD_COUNT_PER_STEP) {
-      render(this.#buttonShowMore, this.#filmsContainer.element);
-
-      this.#filmsContainer.element.addEventListener('click', this.#handleShowMoreButtonClick);
-    }
-
-    for (let i = 0; i <Math.min(this.boardFilms.length, CARD_COUNT_PER_STEP); i++) {
-      this.#renderCard(this.boardFilms[i]);}
   };
 }
