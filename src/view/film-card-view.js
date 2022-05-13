@@ -40,6 +40,7 @@ export default class FilmCardView {
 
   get template() {
     return createFilmCardTemplate(this.#card);
+
   }
 
   get element() {

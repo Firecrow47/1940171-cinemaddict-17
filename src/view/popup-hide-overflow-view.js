@@ -144,11 +144,13 @@ const createHideOverflowTemplate = (card) => {
 };
 
 export default class PopupHideOverflowView {
+
   #element = null;
   #card = null;
 
   constructor(card) {
     this.#card = card;
+
   }
 
   get template() {
