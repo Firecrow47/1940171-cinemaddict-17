@@ -20,13 +20,10 @@ export default class MainPresenter {
 
     render(new MainNavigation, this.boardContainer);
     render(new SortView(), this.boardContainer);
-    render(this.#mainBoard,this.boardContainer);
+    render(this.#mainBoard, this.boardContainer);
     render(this.#filmsContainer, this.#mainBoard.element);
-    render(new ButtonShowMoreView(),this.#filmsContainer.element);
-
-    for (let i = 0; i <this.boardFilms.length; i++) {
-      this.#renderCard(this.boardFilms[i]);
-    }
+    render(new ButtonShowMoreView(), this.#filmsContainer.element);
+    this.boardFilms.forEach((card) => this.#renderCard(card));
   };
 
   #renderCard = (card) => {
@@ -34,11 +31,11 @@ export default class MainPresenter {
     const cardPopup = new PopupHideOverflowView(card);
     render(cardComponent, this.#filmsContainer.element.querySelector('.films-list__container'));
 
-    const addPopup  =() => {
+    const addPopup  = () => {
       body.appendChild(cardPopup.element);
       body.classList.add('hide-overflow');
     };
-    const removePopup  =() => {
+    const removePopup  = () => {
       body.removeChild(cardPopup.element);
       body.classList.remove('hide-overflow');
     };
