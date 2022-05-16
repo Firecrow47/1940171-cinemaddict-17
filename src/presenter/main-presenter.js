@@ -78,7 +78,7 @@ export default class MainPresenter {
     render(this.#mainBoard, this.boardContainer);
     render(new SortView(), this.boardContainer);
     render(this.#filmsContainer, this.#mainBoard.element);
-    if (this.boardFilms.every((card)=> card.isArchive)) {
+    if (this.boardFilms.every((card)=> card.length === 0)) {
       render(new NoCardView(), this.#filmsContainer.element);
     }
 
