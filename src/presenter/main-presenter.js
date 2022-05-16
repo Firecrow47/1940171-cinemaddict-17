@@ -7,7 +7,6 @@ import PopupHideOverflowView from '../view/popup-hide-overflow-view.js';
 import MainBoardView from '../view/main-board-view.js';
 import {render} from '../render.js';
 import NoCardView from '../view/no-card-view.js';
-
 const body = document.querySelector('body');
 const CARD_COUNT_PER_STEP = 5;
 
@@ -23,7 +22,7 @@ export default class MainPresenter {
   }
 
   init = () => {
-    this.boardFilms=[...this.filmsCardModel.card];
+    this.boardFilms = [...this.filmsCardModel.card];
     render(new MainNavigation, this.boardContainer);
     this.#renderBoard();
   };
@@ -79,7 +78,7 @@ export default class MainPresenter {
     render(this.#mainBoard, this.boardContainer);
     render(new SortView(), this.boardContainer);
     render(this.#filmsContainer, this.#mainBoard.element);
-    if (this.boardFilms.every) {
+    if (this.boardFilms.every((card)=> card.isArchive)) {
       render(new NoCardView(), this.#filmsContainer.element);
     }
 
