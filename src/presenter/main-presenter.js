@@ -5,7 +5,7 @@ import FilmCardView from '../view/film-card-view.js';
 import ButtonShowMoreView from '../view/button-show-more-view.js';
 import PopupHideOverflowView from '../view/popup-hide-overflow-view.js';
 import MainBoardView from '../view/main-board-view.js';
-import {render} from '../render.js';
+import {render, remove} from '../framework/render.js';
 import NoCardView from '../view/no-card-view.js';
 const body = document.querySelector('body');
 const CARD_COUNT_PER_STEP = 5;
@@ -27,8 +27,7 @@ export default class MainPresenter {
     this.#renderBoard();
   };
 
-  #handleShowMoreButtonClick = (evt) => {
-    evt.preventDefault();
+  #handleShowMoreButtonClick = () => {
     this.boardFilms
       .slice(this.#renderCardCount, this.#renderCardCount + CARD_COUNT_PER_STEP)
       .forEach((card) => this.#renderCard(card));
@@ -48,11 +47,11 @@ export default class MainPresenter {
     render(cardComponent, this.#filmsContainer.element.querySelector('.films-list__container'));
 
     const addPopup  = () => {
-      body.appendChild(cardPopup.element);
+      render(cardPopup, body);
       body.classList.add('hide-overflow');
     };
     const removePopup  = () => {
-      body.removeChild(cardPopup.element);
+      remove(cardPopup);
       body.classList.remove('hide-overflow');
     };
 
@@ -63,12 +62,12 @@ export default class MainPresenter {
         document.removeEventListener('keydown', onEscKeyDown);
       }
     };
-    cardComponent.element.addEventListener('click',()=>{
+    cardComponent.setClickHandler(()=>{
       addPopup();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    cardPopup.element.querySelector('.film-details__close-btn').addEventListener('click',() => {
+    cardPopup.setClickHandler(() => {
       removePopup();
       document.removeEventListener('keydown', onEscKeyDown);
     });
@@ -85,7 +84,7 @@ export default class MainPresenter {
     if (this.boardFilms.length > CARD_COUNT_PER_STEP) {
       render(this.#buttonShowMore, this.#filmsContainer.element);
 
-      this.#filmsContainer.element.addEventListener('click', this.#handleShowMoreButtonClick);
+      this.#buttonShowMore.setClickHandler(this.#handleShowMoreButtonClick);
     }
     this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
 

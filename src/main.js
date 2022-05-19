@@ -1,5 +1,5 @@
 import UserTitleView from './view/user-title-view.js';
-import {render} from './render.js';
+import {render} from './framework/render.js';
 import MainPresenter from './presenter/main-presenter.js';
 import FilmsCardModel from './model/film-card-model.js';
 
