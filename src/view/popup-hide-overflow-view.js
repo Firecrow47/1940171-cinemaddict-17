@@ -1,6 +1,6 @@
-import {createElement} from '../render.js';
-import {getTimeFromMins} from '../utils.js';
-import {humanizeDate, humanizeDateComm} from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import {getTimeFromMins} from '../utils/card.js';
+import {humanizeDate, humanizeDateComm} from '../utils/card.js';
 import {getCommentById} from '../mock/film-card.js';
 
 const createHideOverflowTemplate = (card) => {
@@ -143,30 +143,29 @@ const createHideOverflowTemplate = (card) => {
   );
 };
 
-export default class PopupHideOverflowView {
+export default class PopupHideOverflowView extends AbstractView {
 
-  #element = null;
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
-
   }
 
   get template() {
     return createHideOverflowTemplate(this.#card);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
 
-    return this.#element;
-  }
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#clickHandler);
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+
+    this._callback.click();
+  };
 }
 

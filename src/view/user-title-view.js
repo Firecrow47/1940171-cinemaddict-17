@@ -1,23 +1,9 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createUserTitleTemplate = () => '<section class="header__profile profile">Movie Buff</section>';
 
-export default class UserTitleView {
-  #element = null;
-
+export default class UserTitleView extends AbstractView {
   get template() {
     return createUserTitleTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
