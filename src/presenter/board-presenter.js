@@ -1,20 +1,21 @@
 import MainNavigation from '../view/main-navigation-view.js';
 import SortView from '../view/sort-view.js';
 import FilmsContainerView from '../view/films-container-view.js';
-import FilmCardView from '../view/film-card-view.js';
 import ButtonShowMoreView from '../view/button-show-more-view.js';
-import PopupHideOverflowView from '../view/popup-hide-overflow-view.js';
 import MainBoardView from '../view/main-board-view.js';
-import {render, remove} from '../framework/render.js';
+import {render, remove, RenderPosition} from '../framework/render.js';
 import NoCardView from '../view/no-card-view.js';
-const body = document.querySelector('body');
+import CardPresenter from './card-presenter.js';
+import {updateItem} from '../utils/common.js';
 const CARD_COUNT_PER_STEP = 5;
 
 export default class MainPresenter {
   #mainBoard = new MainBoardView();
-  #filmsContainer = new FilmsContainerView;
+  #filmsContainer = new FilmsContainerView();
   #buttonShowMore = new ButtonShowMoreView();
+  #mainNavigation = new MainNavigation();
   #renderCardCount = CARD_COUNT_PER_STEP;
+  #cardPresenter = new Map();
 
   constructor(boardContainer, filmsCardsModel) {
     this.boardContainer = boardContainer;
@@ -23,8 +24,10 @@ export default class MainPresenter {
 
   init = () => {
     this.boardFilms = [...this.filmsCardModel.card];
-    render(new MainNavigation, this.boardContainer);
+    this.#renderMainNavigation();
+    this.#renderSort();
     this.#renderBoard();
+    this.#renderFilmsContainer();
   };
 
   #handleShowMoreButtonClick = () => {
@@ -40,54 +43,53 @@ export default class MainPresenter {
     }
   };
 
+  #renderMainNavigation = () =>{
+    render(this.#mainNavigation, this.boardContainer);
+  };
 
   #renderCard = (card) => {
-    const cardComponent = new FilmCardView(card);
-    const cardPopup = new PopupHideOverflowView(card);
-    render(cardComponent, this.#filmsContainer.element.querySelector('.films-list__container'));
+    const cardPresenter = new CardPresenter(this.#filmsContainer.element,  this.#handleCardChange, this.#hidePopup);
+    cardPresenter.init(card);
+    this.#cardPresenter.set(card.id, cardPresenter);
+  };
 
-    const addPopup  = () => {
-      render(cardPopup, body);
-      body.classList.add('hide-overflow');
-    };
-    const removePopup  = () => {
-      remove(cardPopup);
-      body.classList.remove('hide-overflow');
-    };
+  #hidePopup = () => {
+    this.#cardPresenter.forEach((presenter) => presenter.removePopup());
+  };
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        removePopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-    cardComponent.setClickHandler(()=>{
-      addPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
+  #handleCardChange = (updatedCard) => {
+    this.boardFilms = updateItem(this.boardFilms, updatedCard);
+    this.#cardPresenter.get(updatedCard.id).init(updatedCard);
+  };
 
-    cardPopup.setClickHandler(() => {
-      removePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
+  #clearCardList = () => {
+    this.#cardPresenter.forEach((presenter) => presenter.destroy());
+    this.#cardPresenter.clear();
+    this.#renderCardCount = CARD_COUNT_PER_STEP;
+    remove(this.#buttonShowMore);
   };
 
   #renderBoard = () => {
     render(this.#mainBoard, this.boardContainer);
-    render(new SortView(), this.boardContainer);
-    render(this.#filmsContainer, this.#mainBoard.element);
-    if (this.boardFilms.every((card)=> card.length === 0)) {
+    if (this.boardFilms.every((item)=> item.length === 0)) {
       render(new NoCardView(), this.#filmsContainer.element);
     }
+
+    this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((item) => this.#renderCard(item));
+
 
     if (this.boardFilms.length > CARD_COUNT_PER_STEP) {
       render(this.#buttonShowMore, this.#filmsContainer.element);
 
       this.#buttonShowMore.setClickHandler(this.#handleShowMoreButtonClick);
     }
-    this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
+  };
 
+  #renderSort = () => {
+    render(new SortView(), this.boardContainer, RenderPosition.AFTERBEGIN);
+  };
 
+  #renderFilmsContainer = () =>{
+    render(this.#filmsContainer, this.#mainBoard.element);
   };
 }

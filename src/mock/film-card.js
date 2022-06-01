@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils/common.js';
-
+import {nanoid} from 'nanoid';
 const generateTitle = () => {
   const titles = [
     'Amadeus',
@@ -74,7 +74,7 @@ const Comments = [
 ];
 
 export const generateCard = () => ({
-  id: 0,
+  id: nanoid(),
   comments: [
     1, 2, 3
   ],
