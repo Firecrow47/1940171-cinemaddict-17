@@ -19,6 +19,14 @@ const generateTitle = () => {
 
   return titles[randomIndex];
 };
+const generateTrueOrFalse = () => {
+  const trueOrFalse = [
+    true,
+    false
+  ];
+  const randomIndex = getRandomInteger(0, trueOrFalse.length - 1);
+  return trueOrFalse[randomIndex];
+};
 
 const generateDescription = () => {
   const descriptions = [
@@ -106,10 +114,10 @@ export const generateCard = () => ({
     description: generateDescription()
   },
   userDetails: {
-    watchlist: false,
-    alreadyWatched: true,
+    watchlist: generateTrueOrFalse(),
+    alreadyWatched: generateTrueOrFalse(),
     watchingDate: '2019-04-12T16:12:32.554Z',
-    favorite: false
+    favorite: generateTrueOrFalse()
   }
 });
 
