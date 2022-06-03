@@ -1,3 +1,4 @@
+import UserTitleView from '../view/user-title-view.js';
 import MainNavigation from '../view/main-navigation-view.js';
 import SortView from '../view/sort-view.js';
 import FilmsContainerView from '../view/films-container-view.js';
@@ -8,6 +9,7 @@ import NoCardView from '../view/no-card-view.js';
 import CardPresenter from './card-presenter.js';
 import {updateItem} from '../utils/common.js';
 const CARD_COUNT_PER_STEP = 5;
+const headerElement = document.querySelector('.header');
 
 export default class MainPresenter {
   #mainBoard = new MainBoardView();
@@ -24,10 +26,10 @@ export default class MainPresenter {
 
   init = () => {
     this.boardFilms = [...this.filmsCardModel.card];
-    this.#renderMainNavigation();
     this.#renderSort();
     this.#renderBoard();
     this.#renderFilmsContainer();
+    this.#renderUserTitle();
   };
 
   #handleShowMoreButtonClick = () => {
@@ -43,8 +45,8 @@ export default class MainPresenter {
     }
   };
 
-  #renderMainNavigation = () =>{
-    render(this.#mainNavigation, this.boardContainer);
+  #renderUserTitle = () => {
+    render(new UserTitleView(), headerElement);
   };
 
   #renderCard = (card) => {
@@ -71,11 +73,11 @@ export default class MainPresenter {
 
   #renderBoard = () => {
     render(this.#mainBoard, this.boardContainer);
-    if (this.boardFilms.every((item)=> item.length === 0)) {
+    if (this.boardFilms.every((card)=> card.length === 0)) {
       render(new NoCardView(), this.#filmsContainer.element);
     }
 
-    this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((item) => this.#renderCard(item));
+    this.boardFilms.slice(0, CARD_COUNT_PER_STEP).forEach((card) => this.#renderCard(card));
 
 
     if (this.boardFilms.length > CARD_COUNT_PER_STEP) {

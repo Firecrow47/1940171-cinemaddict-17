@@ -20,6 +20,8 @@ const generateTitle = () => {
   return titles[randomIndex];
 };
 
+const generateTrueOrFalse = () => Math.random() > 0.5;
+
 const generateDescription = () => {
   const descriptions = [
     'This 1984 biopic chronicles the life of Amadeus Mozart, namely through the eyes of his bitter contemporary Antonio Salieri. Striving for authenticity, director Milos Forman shot the film using only natural light—arguably taking some cues from Stanley Kubrick, who did the same when making “Barry Lyndon.” Tom Hulce went above and beyond to prepare for his role as the famous composer, including practicing piano for four to five hours a day before filming began. The work paid off: “Amadeus” netted eight Academy Awards, including Best Picture.',
@@ -106,10 +108,10 @@ export const generateCard = () => ({
     description: generateDescription()
   },
   userDetails: {
-    watchlist: false,
-    alreadyWatched: true,
+    watchlist: generateTrueOrFalse(),
+    alreadyWatched: generateTrueOrFalse(),
     watchingDate: '2019-04-12T16:12:32.554Z',
-    favorite: false
+    favorite: generateTrueOrFalse()
   }
 });
 
