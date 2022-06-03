@@ -1,18 +1,18 @@
-import {getRandomInteger} from '../utils/common.js';
+import {getRandomInteger, getRandomFraction} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 const generateTitle = () => {
   const titles = [
     'Amadeus',
-    'The Hurt Locker (2008)',
-    'Mad Max: Fury Road (2015)',
-    'The Truman Show (1998)',
-    'Finding Nemo (2003)',
-    'The Silence of the Lambs (1991)',
-    'The Circus (1928)',
-    'Stagecoach (1939)',
-    ' Stagecoach (1939)',
-    ' Little Women (2019)',
-    'Days of Heaven (1978)'
+    'The Hurt Locker',
+    'Mad Max: Fury Road',
+    'The Truman Show',
+    'Finding Nemo',
+    'The Silence of the Lambs',
+    'The Circus',
+    'Stagecoach',
+    ' Stagecoach',
+    ' Little Women',
+    'Days of Heaven'
   ];
 
   const randomIndex = getRandomInteger(0, titles.length - 1);
@@ -84,7 +84,7 @@ export const generateCard = () => ({
     title: generateTitle(),
     alternativeTitle: generateTitle(),
 
-    totalRating: 5.3,
+    totalRating: getRandomFraction(1, 9, 1),
     poster: generatePoster(),
     ageRating: 0,
     director: 'Tom Ford',
@@ -97,7 +97,7 @@ export const generateCard = () => ({
       'Gleb Luzin'
     ],
     release: {
-      date: '2019-05-11T00:00:00.000Z',
+      date: `${getRandomInteger(1980, 2022)}-05-11T00:00:00.000Z`,
       releaseCountry: 'Finland'
     },
     runtime: 77,
