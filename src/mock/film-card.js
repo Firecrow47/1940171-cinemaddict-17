@@ -19,14 +19,8 @@ const generateTitle = () => {
 
   return titles[randomIndex];
 };
-const generateTrueOrFalse = () => {
-  const trueOrFalse = [
-    true,
-    false
-  ];
-  const randomIndex = getRandomInteger(0, trueOrFalse.length - 1);
-  return trueOrFalse[randomIndex];
-};
+
+const generateTrueOrFalse = () => Math.random() > 0.5;
 
 const generateDescription = () => {
   const descriptions = [
