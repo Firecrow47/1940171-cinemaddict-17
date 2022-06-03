@@ -4,6 +4,14 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
+const getRandomFraction = (min, max, condition) => {
+  if (min>=max) {
+    return 0;}
+  else {
+    return  ((Math.random() * (max - min + 1)) + min).toFixed(condition);
+  }
+};
+
 const updateItem = (items, update) => {
   const index = items.findIndex((item) => item.id === update.id);
 
@@ -18,4 +26,4 @@ const updateItem = (items, update) => {
   ];
 };
 
-export {getRandomInteger, updateItem};
+export {getRandomInteger, updateItem, getRandomFraction};
