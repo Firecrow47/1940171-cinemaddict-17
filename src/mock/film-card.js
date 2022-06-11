@@ -77,6 +77,9 @@ const Comments = [
 
 export const generateCard = () => ({
   id: nanoid(),
+  newComment: {
+    emotion: 'smile.png',
+  },
   comments: [
     1, 2, 3
   ],
