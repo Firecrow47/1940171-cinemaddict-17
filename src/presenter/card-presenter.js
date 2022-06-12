@@ -21,7 +21,7 @@ export default class CardPresenter {
     const prevCardComponent = this.#cardComponent;
     this.#card = card;
     this.#cardComponent = new FilmCardView(card);
-    this.#cardPopup = new PopupHideOverflowView(card);
+    this.#cardPopup = new PopupHideOverflowView(card, this.#setInnerHandlers);
     this.#cardComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#cardComponent.setWatchlistClickHandler(this.#handleWatchlistClick);
     this.#cardComponent.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
@@ -51,6 +51,7 @@ export default class CardPresenter {
       remove(this.#cardPopup);
       body.classList.remove('hide-overflow');
     }
+    this.#cardPopup.reset(this.#card);
   };
 
   #onEscKeyDown = (evt) => {
@@ -66,13 +67,7 @@ export default class CardPresenter {
       this.#hidePopup();
       render(this.#cardPopup, body);
       body.classList.add('hide-overflow');
-      this.#cardPopup.setFavoriteClickHandler(this.#handleFavoriteClick);
-      this.#cardPopup.setWatchlistClickHandler(this.#handleWatchlistClick);
-      this.#cardPopup.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClick);
-      this.#cardPopup.setClickHandler(() => {
-        this.removePopup();
-        document.removeEventListener('keydown', this.#onEscKeyDown);
-      });
+      this.#setInnerHandlers();
     };
 
     this.#cardComponent.setClickHandler(()=>{
@@ -81,15 +76,86 @@ export default class CardPresenter {
     });
   };
 
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+  };
+
+  #setInnerHandlers = () => {
+    this.#cardPopup.setEmotionClickHandler(this.#handleEmotionClick);
+    this.#cardPopup.setFavoriteClickHandler(this.#handleFavoriteClickPopup);
+    this.#cardPopup.setWatchlistClickHandler(this.#handleWatchlistClickPopup);
+    this.#cardPopup.setAlreadyWatchedClickHandler(this.#handleAlreadyWatchedClickPopup);
+    this.#cardPopup.setDescriptionInputHandler(this.#descriptionInputHandler);
+    this.#cardPopup.setClickHandler(() => {
+      this.removePopup();
+      document.removeEventListener('keydown', this.#onEscKeyDown);
+    });
+  };
+
+  #descriptionInputHandler = (evt) => {
+    evt.preventDefault();
+    this.#cardPopup._setState({
+      newComment: {
+        commentText: evt.target.value,
+      },
+    });
+  };
+
+  #handleEmotionClick = (evt) => {
+    const scrollTopPosition = this.#cardPopup.element.scrollTop;
+    const value =this.#cardPopup.element.querySelector('.film-details__comment-input').value;
+    this.#cardPopup.updateElement({
+      newComment: {
+        emotion: `${evt.target.value}.png`,
+        commentText: value,
+      },
+    });
+    this.#cardPopup.element
+      .querySelectorAll('.film-details__emoji-item')
+      .forEach((emotion) => {
+        if(emotion.value === evt.target.value){
+          emotion.setAttribute('checked', 'true');
+        }});
+    this.#cardPopup.element.scrollTop = scrollTopPosition;
+  };
+
+  #handleFavoriteClickPopup = () => {
+    const scrollTopPosition = this.#cardPopup.element.scrollTop;
+    this.#cardPopup.updateElement({
+      userDetails: {favorite: !this.#card.userDetails.favorite }
+    });
+    this.#cardPopup.element.scrollTop = scrollTopPosition;
+
+  };
+
+  #handleWatchlistClickPopup = () => {
+    const scrollTopPosition = this.#cardPopup.element.scrollTop;
+    this.#cardPopup.updateElement({
+      userDetails: {watchlist: !this.#card.userDetails.watchlist }
+    });
+    this.#cardPopup.element.scrollTop = scrollTopPosition;
+  };
+
+  #handleAlreadyWatchedClickPopup = () => {
+    const scrollTopPosition = this.#cardPopup.element.scrollTop;
+    this.#cardPopup.updateElement({
+      userDetails: {alreadyWatched: !this.#card.userDetails.alreadyWatched }
+    });
+    this.#cardPopup.element.scrollTop = scrollTopPosition;
+  };
+
   #handleFavoriteClick = () => {
     this.#changeData({...this.#card, userDetails: {favorite: !this.#card.userDetails.favorite }});
+
   };
 
   #handleWatchlistClick = () => {
     this.#changeData({...this.#card, userDetails: {watchlist: !this.#card.userDetails.watchlist }});
+
   };
 
   #handleAlreadyWatchedClick = () => {
     this.#changeData({...this.#card, userDetails: {alreadyWatched: !this.#card.userDetails.alreadyWatched }});
+
   };
 }
