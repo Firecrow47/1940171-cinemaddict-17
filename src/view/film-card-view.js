@@ -1,13 +1,13 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {getTimeFromMins} from '../utils/card.js';
-import {humanizeDateMain} from '../utils/card.js';
+import {getTimeFromMins, getTimeFromHour, humanizeDateMain} from '../utils/card.js';
 const createFilmCardTemplate = (card) =>{
   const {filmInfo, comments} = card;
   const maxLengthDescription = 139;
   const description = filmInfo.description.length > maxLengthDescription
     ? `${filmInfo.description.slice(0,maxLengthDescription-1)}...`
     : filmInfo.description;
-  const time = getTimeFromMins(filmInfo.runtime);
+  const hour = getTimeFromHour(filmInfo.runtime);
+  const min = getTimeFromMins(filmInfo.runtime);
 
   return (
     `<article class="film-card"><a class="film-card__link">
@@ -15,7 +15,7 @@ const createFilmCardTemplate = (card) =>{
   <p class="film-card__rating">${filmInfo.totalRating}</p>
   <p class="film-card__info">
   <span class="film-card__year">${humanizeDateMain(filmInfo.release.date)}</span>
-  <span class="film-card__duration">${time}</span>
+  <span class="film-card__duration">${hour}h ${min}m</span>
   <span class="film-card__genre">${filmInfo.genre}</span>
   </p>
   <img src=${filmInfo.poster} alt="" class="film-card__poster">

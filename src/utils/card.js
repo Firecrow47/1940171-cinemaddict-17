@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-
-const getTimeFromMins = (min) =>dayjs().hour(0).minute(min).format('hч mмин');
+const getTimeFromHour = (min) =>dayjs().hour(0).minute(min).format('h');
+const getTimeFromMins = (min) =>dayjs().minute(min).format('m');
 const humanizeDate = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
 const humanizeDateMain = (dueDate) => dayjs(dueDate).format('YYYY');
-const humanizeDateComm = (dueDate) => dayjs(dueDate).format('M/D/YYYY h:mm');
+const humanizeDateComm = (dueDate) => dayjs(dueDate).format('YYYY/M/D h:mm');
 const getWeightForNullDate = (dateA, dateB) => {
   if (dateA === null && dateB === null) {
     return 0;
@@ -28,4 +28,4 @@ const sortCardDown = (cardA, cardB) => {
   return weight ?? dayjs(cardB.filmInfo.release.date).diff(dayjs(cardA.filmInfo.release.date));
 };
 
-export {getTimeFromMins, humanizeDate, humanizeDateMain, humanizeDateComm, sortCardDown, sortCardRating};
+export {getTimeFromMins, getTimeFromHour, humanizeDate, humanizeDateMain, humanizeDateComm, sortCardDown, sortCardRating};
