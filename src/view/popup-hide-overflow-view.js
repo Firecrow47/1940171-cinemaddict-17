@@ -3,6 +3,12 @@ import {getTimeFromMins, getTimeFromHour} from '../utils/card.js';
 import {humanizeDate, humanizeDateComm} from '../utils/card.js';
 import {getCommentById} from '../mock/film-card.js';
 
+const checkUserDetailsForPopup = (userDetails) => {
+  if(userDetails){
+    return 'film-details__control-button--active';
+  }
+};
+
 const createComment = (comment) => `
 <li class="film-details__comment">
     <span class="film-details__comment-emoji">
@@ -136,9 +142,9 @@ const createHideOverflowTemplate = (card) => {
       </div>
 
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.watchlist)} film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.alreadyWatched)} film-details__control-button--watched film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.favorite)} film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
       </section>
     </div>
 

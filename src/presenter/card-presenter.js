@@ -122,40 +122,68 @@ export default class CardPresenter {
   #handleFavoriteClickPopup = () => {
     const scrollTopPosition = this.#cardPopup.element.scrollTop;
     this.#cardPopup.updateElement({
-      userDetails: {favorite: !this.#card.userDetails.favorite }
+      userDetails: {
+        favorite: !this.#card.userDetails.favorite,
+        watchlist: this.#card.userDetails.watchlist,
+        alreadyWatched: this.#card.userDetails.alreadyWatched
+      }
     });
     this.#cardPopup.element.scrollTop = scrollTopPosition;
-
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleWatchlistClickPopup = () => {
     const scrollTopPosition = this.#cardPopup.element.scrollTop;
     this.#cardPopup.updateElement({
-      userDetails: {watchlist: !this.#card.userDetails.watchlist }
+      userDetails: {
+        favorite: this.#card.userDetails.favorite,
+        watchlist: !this.#card.userDetails.watchlist,
+        alreadyWatched: this.#card.userDetails.alreadyWatched
+      }
     });
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
     this.#cardPopup.element.scrollTop = scrollTopPosition;
   };
 
   #handleAlreadyWatchedClickPopup = () => {
     const scrollTopPosition = this.#cardPopup.element.scrollTop;
     this.#cardPopup.updateElement({
-      userDetails: {alreadyWatched: !this.#card.userDetails.alreadyWatched }
+      userDetails: {
+        favorite: this.#card.userDetails.favorite,
+        watchlist: this.#card.userDetails.watchlist,
+        alreadyWatched: !this.#card.userDetails.alreadyWatched
+      }
     });
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
     this.#cardPopup.element.scrollTop = scrollTopPosition;
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#card, userDetails: {favorite: !this.#card.userDetails.favorite }});
-
+    this.#changeData({...this.#card, userDetails: {
+      favorite: !this.#card.userDetails.favorite,
+      watchlist: this.#card.userDetails.watchlist,
+      alreadyWatched: this.#card.userDetails.alreadyWatched
+    }});
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleWatchlistClick = () => {
-    this.#changeData({...this.#card, userDetails: {watchlist: !this.#card.userDetails.watchlist }});
+    this.#changeData({...this.#card, userDetails: {
+      favorite: this.#card.userDetails.favorite,
+      watchlist: !this.#card.userDetails.watchlist,
+      alreadyWatched: this.#card.userDetails.alreadyWatched
+    }});
 
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleAlreadyWatchedClick = () => {
-    this.#changeData({...this.#card, userDetails: {alreadyWatched: !this.#card.userDetails.alreadyWatched }});
+    this.#changeData({...this.#card, userDetails: {
+      favorite: this.#card.userDetails.favorite,
+      watchlist: this.#card.userDetails.watchlist,
+      alreadyWatched: !this.#card.userDetails.alreadyWatched
+    }});
 
+    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 }
