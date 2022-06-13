@@ -1,9 +1,16 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import {getTimeFromMins} from '../utils/card.js';
+import {getTimeFromMins, getTimeFromHour} from '../utils/card.js';
 import {humanizeDate, humanizeDateComm} from '../utils/card.js';
 import {getCommentById} from '../mock/film-card.js';
 
-const createComment = (comment) => `<li class="film-details__comment">
+const checkUserDetailsForPopup = (userDetails) => {
+  if(userDetails){
+    return 'film-details__control-button--active';
+  }
+};
+
+const createComment = (comment) => `
+<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
     </span>
@@ -15,7 +22,8 @@ const createComment = (comment) => `<li class="film-details__comment">
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
-    </li>`;
+    </li>
+    `;
 
 const renderComments = (comments) => {
   const allComments = comments.map((comment) => createComment(comment)).join(' ');
@@ -23,6 +31,28 @@ const renderComments = (comments) => {
   return `<ul class="film-details__comments-list">
         ${allComments}
       </ul>`;
+};
+
+const renderEmotion = (emotion) => `
+<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}">
+  <label class="film-details__emoji-label" for="emoji-${emotion}">
+    <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
+  </label>
+`;
+
+const renderEmotionsList = () =>{
+  const EMOTIONS = [
+    'smile',
+    'sleeping',
+    'puke',
+    'angry'
+  ];
+  const allEmotions = EMOTIONS.map((emotion) => renderEmotion(emotion)).join(' ');
+  return `
+  <div class="film-details__emoji-list">
+  ${allEmotions}
+  </div>
+  `;
 };
 
 const createFormNewComment = (card) => `<div class="film-details__new-comment">
@@ -34,32 +64,13 @@ const createFormNewComment = (card) => `<div class="film-details__new-comment">
   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${card.newComment.commentText}</textarea>
 </label>
 
-<div class="film-details__emoji-list">
-  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" checked>
-  <label class="film-details__emoji-label" for="emoji-smile">
-    <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-  </label>
-
-  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-  <label class="film-details__emoji-label" for="emoji-sleeping">
-    <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-  </label>
-
-  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-  <label class="film-details__emoji-label" for="emoji-puke">
-    <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-  </label>
-
-  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-  <label class="film-details__emoji-label" for="emoji-angry">
-    <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-  </label>
-</div>
+${renderEmotionsList()};
 </div>`;
 
 const createHideOverflowTemplate = (card) => {
   const {filmInfo, comments} = card;
-  const time = getTimeFromMins(filmInfo.runtime);
+  const hour = getTimeFromHour(filmInfo.runtime);
+  const min = getTimeFromMins(filmInfo.runtime);
   const genreTitle = filmInfo.genre.length === 1
     ? 'Genre'
     : 'Genres';
@@ -111,7 +122,7 @@ const createHideOverflowTemplate = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${time}</td>
+              <td class="film-details__cell">${hour}h ${min}m</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
@@ -131,9 +142,9 @@ const createHideOverflowTemplate = (card) => {
       </div>
 
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.watchlist)} film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.alreadyWatched)} film-details__control-button--watched film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+        <button type="button" class="film-details__control-button ${checkUserDetailsForPopup(card.userDetails.favorite)} film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
       </section>
     </div>
 
