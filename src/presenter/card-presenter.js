@@ -129,7 +129,6 @@ export default class CardPresenter {
       }
     });
     this.#cardPopup.element.scrollTop = scrollTopPosition;
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleWatchlistClickPopup = () => {
@@ -141,7 +140,6 @@ export default class CardPresenter {
         alreadyWatched: this.#card.userDetails.alreadyWatched
       }
     });
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
     this.#cardPopup.element.scrollTop = scrollTopPosition;
   };
 
@@ -154,7 +152,6 @@ export default class CardPresenter {
         alreadyWatched: !this.#card.userDetails.alreadyWatched
       }
     });
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
     this.#cardPopup.element.scrollTop = scrollTopPosition;
   };
 
@@ -164,7 +161,6 @@ export default class CardPresenter {
       watchlist: this.#card.userDetails.watchlist,
       alreadyWatched: this.#card.userDetails.alreadyWatched
     }});
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleWatchlistClick = () => {
@@ -173,8 +169,6 @@ export default class CardPresenter {
       watchlist: !this.#card.userDetails.watchlist,
       alreadyWatched: this.#card.userDetails.alreadyWatched
     }});
-
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 
   #handleAlreadyWatchedClick = () => {
@@ -183,7 +177,5 @@ export default class CardPresenter {
       watchlist: this.#card.userDetails.watchlist,
       alreadyWatched: !this.#card.userDetails.alreadyWatched
     }});
-
-    console.log(`W${this.#card.userDetails.watchlist}, A${this.#card.userDetails.alreadyWatched}, F${this.#card.userDetails.favorite}`);
   };
 }
